@@ -3,6 +3,7 @@ import 'package:imc_calculator/components/gender_selector.dart';
 import 'package:imc_calculator/components/height_selector.dart';
 import 'package:imc_calculator/components/number_selector.dart';
 import 'package:imc_calculator/core/app_colors.dart';
+import 'package:imc_calculator/screens/imc_result_screen.dart';
 
 class ImcHomeScreen extends StatefulWidget {
   const ImcHomeScreen({super.key});
@@ -14,17 +15,20 @@ class ImcHomeScreen extends StatefulWidget {
 class _ImcHomeScreenState extends State<ImcHomeScreen> {
   int selectedAge = 20;
   int selectedWeight = 80;
-  double setHeight=173;
+  double setHeight = 173;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GenderSelector(),
-        HeightSelector(initialHeight: setHeight , onHeightChange: (value){
-          setState(() {
-            setHeight=value;
-          });
-        },),
+        HeightSelector(
+          initialHeight: setHeight,
+          onHeightChange: (value) {
+            setState(() {
+              setHeight = value;
+            });
+          },
+        ),
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -72,11 +76,24 @@ class _ImcHomeScreenState extends State<ImcHomeScreen> {
             height: 60,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => ImcResultScreen(
+                          height: setHeight,
+                          weight: selectedWeight,
+                        ),
+                  ),
+                ); //Enviar a otro lado
+              },
               style: ButtonStyle(
-                shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                )),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
                 backgroundColor: WidgetStateProperty.all(AppColors.primary),
               ),
               child: Text("Calcular"),
